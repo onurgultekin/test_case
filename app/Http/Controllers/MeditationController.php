@@ -13,7 +13,7 @@ class MeditationController extends Controller
             return response($response, 400);
             //Current yıl kontrolü yapılıyor.
         } else if ($request->year < 2016) {
-            $response = ['message' => 'Year parameter shoul be bigger than 2016 '];
+            $response = ['message' => 'Year parameter should be bigger than 2016 '];
             return response($response, 400);
         }
         for($y = 2016; $y <= date("Y"); $y++) {
