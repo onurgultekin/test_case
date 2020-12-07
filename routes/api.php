@@ -21,4 +21,6 @@ Route::post('login', [UserController::class, 'login']);
 Route::group(['middleware' => 'auth:sanctum'], function() {
     Route::get('/user',[UserController::class, 'index']);
     Route::post('/meditation',[MeditationController::class, 'index']);
+    Route::get('/lastSevenDays',[MeditationController::class, 'lastSevenDays']);
+    Route::get('/thisMonth',[MeditationController::class, 'thisMonth']);
 });
