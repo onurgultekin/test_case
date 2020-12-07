@@ -7,6 +7,10 @@ use App\Models\User;
 
 class UserController extends Controller
 {
+    public function index(Request $request) {
+        return $request->user();
+    }
+    
     public function login(Request $request) {
         $user = User::where('email', $request->email)->first();
         if (!$user || ($request->password !== $user->password)) {
