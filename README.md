@@ -5,7 +5,19 @@ This project is written with **Laravel** version 8. If you want to learn more, y
 
 # How it works?
 
-After you cloned the project to your local environment, **you have to create a new database called *test_case*** in your local mysql server. If you have an existing database you can config it by editing .env file in the project like below:
+After you cloned the project to your local environment, you need to install dependencies first. 
+
+    composer install
+
+After that **you have to create a new database called *test_case*** in your local mysql server. If you have an existing database you can config it by editing .env file in the project like below:
+
+To edit the .env file you need to copy .env .example file to .env first.
+
+Open Terminal and run:
+
+    cp .env.example .env
+
+After .env is created you can find DB_CONNECTION parameters, if you want to change.
 
     DB_CONNECTION=mysql
 	DB_HOST=127.0.0.1
