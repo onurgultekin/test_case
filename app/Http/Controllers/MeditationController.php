@@ -11,16 +11,20 @@ class MeditationController extends Controller
 {
     public function index(Request $request) {
         $data = [];
-        if ($request->year > date("Y")) {
-            $response = ['message' => 'Year parameter can not be bigger than current year ' . date("Y")];
+        if ($request->year > date("Y") || $request->year < 2016 ) {
+            $response = ['message' => 'Year parameter must be between 2016 and ' . date("Y")];
             return response($response, 400);
-            //Current yıl kontrolü yapılıyor.
-        } else if ($request->year < 2016) {
-            $response = ['message' => 'Year parameter should be bigger than 2016 '];
+            // Yıl parametresi kontrol ediliyor.
+            // 2016 yılında kuruldu sanırım şirket :)
+            // İstenmeyen bir değer girilirse Bad Request dönüyor.
+        }
+        if ($request->month > 12 || $request->month < 1 ) {
+            $response = ['message' => 'Month parameter must be between 1 and 12'];
             return response($response, 400);
+            // Ay parametresi kontrol ediliyor.
+            // İstenmeyen bir değer girilirse Bad Request dönüyor.
         }
         for($y = 2016; $y <= date("Y"); $y++) {
-            // 2016 yılında kuruldu sanırım şirket :)
             for($i = 1; $i <= 12; $i++) {
                 $data[$y][$i] = [
                     'completed_meditation'=> rand(0, 200),
@@ -60,7 +64,7 @@ class MeditationController extends Controller
         }
         return response($response, 200);
     }
-    
+
     public function thisMonth() {
         $firstDay  = new DateTime(date("Y-m-01"));
         $today     = new DateTime(); // bugün

@@ -1,61 +1,120 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# About the project
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+This project is written with **Laravel** version 8. If you want to learn more, you can go to [Laravel documentation](https://laravel.com/docs/8.x)
 
-## About Laravel
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+# How it works?
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+After you clone the project to your local environment, **you have to create a new database called *test_case*** in your local mysql server. If you have an existing database you can config it by editing .env file in the project like below:
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+    DB_CONNECTION=mysql
+	DB_HOST=127.0.0.1
+	DB_PORT=3306
+	DB_DATABASE=test_case
+	DB_USERNAME=root
+	DB_PASSWORD=root
+After you aree done with your database, you have to run below command from terminal to make migrations:
 
-## Learning Laravel
+    php artisan migrate
+After migration is succeeded you have to run below command in order to insert fake users to users table with Laravel's tinker.
+First access to tinker with:
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+    php artisan tinker
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 1500 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+And then
 
-## Laravel Sponsors
+    User::factory()->count(10)->create()
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+This is going to create 10 fake users to users table.
+Once user creation is completed, you can see all users in your users table.
 
-### Premium Partners
+## API Usage
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[OP.GG](https://op.gg)**
+This API's authorization is implemented with [Laravel's sanctum](https://laravel.com/docs/8.x/sanctum). So, you will need to use a Bearer token to make requests expect login endpoint.
 
-## Contributing
+## Login Endpoint
+To get the token, you need send a **POST** request to **login** endpoint with these credentials.
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+***Endpoint: localhost:8000/api/login***
 
-## Code of Conduct
+Headers:
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+    Content-Type: application/json
+    Accept: application/json
 
-## Security Vulnerabilities
+Request Body:
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+    {
+    "email": // You can get it from your users table's email column,
+    "password": // You can get it from your users table's password column. Send hashed password as it writes in DB.
+    }
 
-## License
+As a response, you are going to get something like this:
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+    {
+    "user": {
+	    "id": 3,
+	    "name": "Miss Shyann Hermiston",
+	    "email": "kturner@example.net",
+	    "email_verified_at": "2020-12-07T17:30:25.000000Z",
+	    "created_at": "2020-12-07T17:30:25.000000Z",
+	    "updated_at": "2020-12-07T17:30:25.000000Z"
+	    },
+    "token": "2|RnI7OSXFlBAZkhIgAzC1NpkGccaqLLmRKA0g2v5u"
+    }
+
+**Get the token parameter** from this response to use other API endpoints without getting "Unauthorized" errors.
+
+## Meditation Endpoint
+
+This Endpoint is used for retrieving data for meditations on monthly and yearly basis.
+
+***Endpoint: localhost:8000/api/meditation***
+
+Method:
+
+**POST**
+
+Headers:
+
+    Content-Type: application/json
+    Accept: application/json
+    Authorization: Bearer {token}
+
+Request Body:
+
+    {
+    "month": 1,
+    "year": 2020
+    }
+## Last Seven Days Endpoint
+
+This Endpoint is used for retrieving data for meditations for last 7 days only.
+
+***Endpoint: localhost:8000/api/lastSevenDays***
+
+Method:
+
+**GET**
+
+Headers:
+
+    Content-Type: application/json
+    Accept: application/json
+    Authorization: Bearer {token}
+   
+## This Month Endpoint
+
+This Endpoint is used for retrieving data for meditations for this month only.
+
+***Endpoint: localhost:8000/api/thisMonth***
+
+Method:
+
+**GET**
+
+Headers:
+
+    Content-Type: application/json
+    Accept: application/json
+    Authorization: Bearer {token}
