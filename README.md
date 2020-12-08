@@ -5,7 +5,7 @@ This project is written with **Laravel** version 8. If you want to learn more, y
 
 # How it works?
 
-After you clone the project to your local environment, **you have to create a new database called *test_case*** in your local mysql server. If you have an existing database you can config it by editing .env file in the project like below:
+After you cloned the project to your local environment, **you have to create a new database called *test_case*** in your local mysql server. If you have an existing database you can config it by editing .env file in the project like below:
 
     DB_CONNECTION=mysql
 	DB_HOST=127.0.0.1
@@ -13,10 +13,10 @@ After you clone the project to your local environment, **you have to create a ne
 	DB_DATABASE=test_case
 	DB_USERNAME=root
 	DB_PASSWORD=root
-After you aree done with your database, you have to run below command from terminal to make migrations:
+After you are done with your database, you have to run below command from terminal to make migrations:
 
     php artisan migrate
-After migration is succeeded you have to run below command in order to insert fake users to users table with Laravel's tinker.
+After migration is succeeded, you have to run below command in order to insert fake users to users table with Laravel's tinker.
 First access to tinker with:
 
     php artisan tinker
@@ -45,8 +45,8 @@ Headers:
 Request Body:
 
     {
-    "email": // You can get it from your users table's email column,
-    "password": // You can get it from your users table's password column. Send hashed password as it writes in DB.
+        "email": // You can get it from your users table's email column,
+        "password": // You can get it from your users table's password column. Send hashed password as it writes in DB.
     }
 
 As a response, you are going to get something like this:
@@ -84,8 +84,8 @@ Headers:
 Request Body:
 
     {
-    "month": 1,
-    "year": 2020
+        "month": 1,
+        "year": 2020
     }
 ## Last Seven Days Endpoint
 
