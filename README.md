@@ -40,6 +40,10 @@ And then
 This is going to create 10 fake users to users table.
 Once user creation is completed, you can see all users in your users table.
 
+From now on, you can run the project with:
+
+    php artisan serve
+
 ## API Usage
 
 This API's authorization is implemented with [Laravel's sanctum](https://laravel.com/docs/8.x/sanctum). So, you will need to use a Bearer token to make requests expect login endpoint.
