@@ -53,6 +53,10 @@ To get the token, you need send a **POST** request to **login** endpoint with th
 
 ***Endpoint: localhost:8000/api/login***
 
+Method:
+
+**POST**
+
 Headers:
 
     Content-Type: application/json
